@@ -34,6 +34,22 @@
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <select asp-for="IdCategory" class="form-control" />
+                @foreach (var categoryVm in Model.CategoriesVm)
+                {
+                    if (Model.IdCategory == categoryVm.Id)
+                    {
+                        <option value="@categoryVm.Id" selected> @categoryVm.Name </option>
+                    }
+                    else
+                    {
+                        <option value="@categoryVm.Id">@categoryVm.Name</option>
+                    }
+                }
+
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

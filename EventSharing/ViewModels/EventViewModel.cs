@@ -17,5 +17,6 @@ namespace EventSharing.ViewModels
         public DateTime? EndDate { get; set; }
         public int IdCategory { get; set; }
         public string? CategoryName { get; set; }
+        public List<CategoryViewModel>? CategoriesVm { get; set; }
     }
 }

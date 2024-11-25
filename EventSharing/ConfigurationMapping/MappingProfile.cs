@@ -12,6 +12,8 @@ namespace EventSharing.ConfigurationMapping
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name))
                 .ForMember(dest => dest.IdCategory, opt => opt.MapFrom(src => src.Category.Id))
                 .ReverseMap();
+            CreateMap<Category, CategoryViewModel>()
+                .ReverseMap();
         }
     }
 }

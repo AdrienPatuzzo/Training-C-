@@ -9,6 +9,9 @@ using EventSharing.Data;
 using EventSharing.Models;
 using AutoMapper;
 using EventSharing.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace EventSharing.Controllers
 {
@@ -16,24 +19,44 @@ namespace EventSharing.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public EventsController(ApplicationDbContext context, IMapper mapper)
+        public EventsController(ApplicationDbContext context, IMapper mapper, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         // GET: Events
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> Index()
         {
+
+            List<Event> events;
+            var currentUser = await _userManager.GetUserAsync(User);
+            bool isOrganizer = await _userManager.IsInRoleAsync(currentUser, "Organizer");
+            if (isOrganizer)
+            {
+                events = await _context.Events
+                    .Include(e => e.Category)
+                    .Where(e => e.Creator.Email.Equals(User.FindFirstValue(ClaimTypes.Email)))
+                    .ToListAsync();
+            }
+            else
+            {
+                events = await _context.Events
+                    .Include(e => e.Category)
+                    .ToListAsync();
+            }
+
             return _context.Events != null ?
-                View(_mapper.Map<List<EventViewModel>>(await _context.Events
-                .Include(e => e.Category)
-                .ToListAsync())) :
+                View(_mapper.Map<List<EventViewModel>>(events)) :
                 Problem("Entity set 'ApplicationDbContext.Events' is null.");
         }
 
         // GET: Events/Details/5
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Events == null)
@@ -42,6 +65,7 @@ namespace EventSharing.Controllers
             }
 
             var eventVm = _mapper.Map<EventViewModel>(await _context.Events
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.Id == id));
             if (eventVm == null)
             {
@@ -52,30 +76,41 @@ namespace EventSharing.Controllers
         }
 
         // GET: Events/Create
+        [Authorize(Roles = "Organizer, Admin")]
         public IActionResult Create()
         {
-            return View();
+            var eventVm = new EventViewModel
+            {
+                CategoriesVm = _mapper.Map<List<CategoryViewModel>>(_context.Categories.ToList()),
+            };
+            return View(eventVm);
         }
 
         // POST: Events/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Organizer, Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate, CategoryName")] EventViewModel eventVm)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,StartDate,EndDate,IdCategory")] EventViewModel eventVm)
         {
             if (ModelState.IsValid)
             {
                 var @event = _mapper.Map<Event>(eventVm);
-                @event.Category = null;
+                @event.Category = _context.Categories
+                    .FirstOrDefault(c => c.Id.Equals(eventVm.IdCategory));
+                @event.Creator = _context.Set<User>()
+                    .FirstOrDefault(o => o.Email.Equals(User.FindFirstValue(ClaimTypes.Email)));
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            eventVm.CategoriesVm = _mapper.Map<List<CategoryViewModel>>(_context.Categories.ToList());
             return View(_mapper.Map<EventViewModel>(eventVm));
         }
 
         // GET: Events/Edit/5
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Events == null)
@@ -83,20 +118,24 @@ namespace EventSharing.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            var eventVm = _mapper.Map<EventViewModel>(await _context.Events
+                .Include(c => c.Category)
+                .FirstOrDefaultAsync(m => m.Id == id));
+            if (eventVm == null)
             {
                 return NotFound();
             }
-            return View(_mapper.Map<EventViewModel>(@event));
+            eventVm.CategoriesVm = _mapper.Map<List<CategoryViewModel>>(_context.Categories.ToList());
+            return View(eventVm);
         }
 
         // POST: Events/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Organizer, Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate, CategoryName")] EventViewModel eventVm)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,StartDate,EndDate,IdCategory")] EventViewModel eventVm)
         {
             if (id != eventVm.Id)
             {
@@ -108,7 +147,8 @@ namespace EventSharing.Controllers
                 try
                 {
                     var @event = _mapper.Map<Event>(eventVm);
-                    @event.Category = null;
+                    @event.Category = _context.Categories
+                        .FirstOrDefault(c => c.Id.Equals(eventVm.IdCategory));
                     _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
@@ -125,10 +165,12 @@ namespace EventSharing.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            eventVm.CategoriesVm = _mapper.Map<List<CategoryViewModel>>(_context.Categories.ToList());
             return View(eventVm);
         }
 
         // GET: Events/Delete/5
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Events == null)
@@ -137,6 +179,7 @@ namespace EventSharing.Controllers
             }
 
             var @event = await _context.Events
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
@@ -149,6 +192,7 @@ namespace EventSharing.Controllers
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Organizer, Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Events == null)
