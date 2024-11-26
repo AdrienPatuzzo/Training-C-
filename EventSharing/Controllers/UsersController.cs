@@ -66,7 +66,7 @@ namespace EventSharing.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,ConfirmPassword,PhoneNumber,EmailConfirmed")] UserViewModel userViewModel)
+        public async Task<IActionResult> Create([Bind("Name,Email,Password,ConfirmPassword,PhoneNumber,EmailConfirmed")] UserViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -171,7 +171,7 @@ namespace EventSharing.Controllers
             var user = await _context.Set<User>().FindAsync(id);
             if (user != null)
             {
-                _context.Set<User>().Remove(userViewModel);
+                _context.Set<User>().Remove(user);
             }
 
             await _context.SaveChangesAsync();
