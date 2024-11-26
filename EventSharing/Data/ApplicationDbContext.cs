@@ -1,6 +1,7 @@
 ﻿using EventSharing.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using EventSharing.ViewModels;
 
 namespace EventSharing.Data
 {
