@@ -14,6 +14,8 @@ namespace EventSharing.ConfigurationMapping
                 .ReverseMap();
             CreateMap<Category, CategoryViewModel>()
                 .ReverseMap();
+            CreateMap<User, UserViewModel>()
+                .ReverseMap();
         }
     }
 }

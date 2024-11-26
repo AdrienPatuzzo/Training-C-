@@ -7,6 +7,10 @@
       "RelativeMoniker": "D:0:0:{8EF88115-E85F-44BE-809C-130F8B78DB8B}|EventSharing\\EventSharing.csproj|solutionrelative:eventsharing\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{8EF88115-E85F-44BE-809C-130F8B78DB8B}|EventSharing\\EventSharing.csproj|c:\\users\\candidat-001\\desktop\\projet_cs\\eventsharing\\eventsharing\\areas\\identity\\pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8EF88115-E85F-44BE-809C-130F8B78DB8B}|EventSharing\\EventSharing.csproj|solutionrelative:eventsharing\\areas\\identity\\pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8EF88115-E85F-44BE-809C-130F8B78DB8B}|EventSharing\\EventSharing.csproj|c:\\users\\candidat-001\\desktop\\projet_cs\\eventsharing\\eventsharing\\viewmodels\\userviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8EF88115-E85F-44BE-809C-130F8B78DB8B}|EventSharing\\EventSharing.csproj|solutionrelative:eventsharing\\viewmodels\\userviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -22,50 +26,67 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\ViewModels\\UserViewModel.cs",
+              "RelativeDocumentMoniker": "EventSharing\\ViewModels\\UserViewModel.cs",
+              "ToolTip": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\ViewModels\\UserViewModel.cs",
+              "RelativeToolTip": "EventSharing\\ViewModels\\UserViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T10:50:04.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Register.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
+              "RelativeDocumentMoniker": "EventSharing\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
+              "ToolTip": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
+              "RelativeToolTip": "EventSharing\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAkwIMAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T10:39:39.957Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "UsersController.cs",
               "DocumentMoniker": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "EventSharing\\Controllers\\UsersController.cs",
-              "ToolTip": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "EventSharing\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\Controllers\\UsersController.cs*",
+              "RelativeToolTip": "EventSharing\\Controllers\\UsersController.cs*",
+              "ViewState": "AgIAADkAAAAAAAAAAAAIwE4AAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T08:24:56.117Z",
+              "WhenOpened": "2024-11-26T10:21:25.163Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UserViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\ViewModels\\UserViewModel.cs",
-              "RelativeDocumentMoniker": "EventSharing\\ViewModels\\UserViewModel.cs",
-              "ToolTip": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\ViewModels\\UserViewModel.cs",
-              "RelativeToolTip": "EventSharing\\ViewModels\\UserViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T08:15:00.887Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "EventsController.cs",
               "DocumentMoniker": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\Controllers\\EventsController.cs",
               "RelativeDocumentMoniker": "EventSharing\\Controllers\\EventsController.cs",
               "ToolTip": "C:\\Users\\Candidat-001\\Desktop\\projet_cs\\EventSharing\\EventSharing\\Controllers\\EventsController.cs",
               "RelativeToolTip": "EventSharing\\Controllers\\EventsController.cs",
-              "ViewState": "AgIAALkAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-26T08:11:10.399Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             }
           ]
         }

@@ -8,23 +8,32 @@ using Microsoft.EntityFrameworkCore;
 using EventSharing.Data;
 using EventSharing.ViewModels;
 using EventSharing.Models;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using NuGet.Packaging.Signing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EventSharing.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public UsersController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context, IMapper mapper, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _mapper = mapper;
+            _userManager = userManager;
         }
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
             return _context.Set<User>() != null ?
-                        View(await _context.Set<User>().ToListAsync()) :
+                        View(_mapper.Map<List<UserViewModel>>(await _context.Set<User>().ToListAsync())) :
                         Problem("Entity set 'ApplicationDbContext.UserViewModel' is null. ");
         }
 
@@ -36,8 +45,8 @@ namespace EventSharing.Controllers
                 return NotFound();
             }
 
-            var userViewModel = await _context.Set<User>()
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var userViewModel = _mapper.Map<UserViewModel>(await _context.Set<User>()
+                .FirstOrDefaultAsync(m => m.Id == id));
             if (userViewModel == null)
             {
                 return NotFound();
@@ -57,13 +66,25 @@ namespace EventSharing.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,PhoneNumber,EmailConfirmed")] UserViewModel userViewModel)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Password,ConfirmPassword,PhoneNumber,EmailConfirmed")] UserViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(userViewModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var user = _mapper.Map<User>(userViewModel);
+                user.Id = Guid.NewGuid().ToString();
+                user.UserName = userViewModel.Email;
+                var result = await _userManager.CreateAsync(user, userViewModel.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    foreach(var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
             }
             return View(userViewModel);
         }
@@ -76,7 +97,8 @@ namespace EventSharing.Controllers
                 return NotFound();
             }
 
-            var userViewModel = await _context.Set<User>().FindAsync(id);
+            var userViewModel = _mapper.Map<UserViewModel>(await _context.Set<User>()
+                .FirstOrDefaultAsync(m => m.Id == id));
             if (userViewModel == null)
             {
                 return NotFound();
@@ -100,7 +122,11 @@ namespace EventSharing.Controllers
             {
                 try
                 {
-                    _context.Update(userViewModel);
+                    var user = await _context.Set<User>().FindAsync(id);
+                    user.Name = userViewModel.Name;
+                    user.PhoneNumber = userViewModel.PhoneNumber;
+                    user.EmailConfirmed = userViewModel.EmailConfirmed;
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -127,8 +153,8 @@ namespace EventSharing.Controllers
                 return NotFound();
             }
 
-            var userViewModel = await _context.Set<User>()
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var userViewModel = _mapper.Map<UserViewModel>(await _context.Set<User>()
+                .FirstOrDefaultAsync(m => m.Id == id));
             if (userViewModel == null)
             {
                 return NotFound();
@@ -142,8 +168,8 @@ namespace EventSharing.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var userViewModel = await _context.Set<User>().FindAsync(id);
-            if (userViewModel != null)
+            var user = await _context.Set<User>().FindAsync(id);
+            if (user != null)
             {
                 _context.Set<User>().Remove(userViewModel);
             }

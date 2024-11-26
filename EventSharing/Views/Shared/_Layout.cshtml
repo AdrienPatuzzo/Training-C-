@@ -28,6 +28,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Events" asp-action="Create">Organiser une activité</a>
                         </li>
                         }
+
+                        @if (SignInManager.IsSignedIn(User) && (User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Gestion des utilisateurs</a>
+                            </li>
+                        }
                         
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

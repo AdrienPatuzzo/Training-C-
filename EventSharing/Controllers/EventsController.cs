@@ -51,8 +51,8 @@ namespace EventSharing.Controllers
             }
 
             return _context.Events != null ?
-                View(_mapper.Map<List<EventViewModel>>(events)) :
-                Problem("Entity set 'ApplicationDbContext.Events' is null.");
+                        View(_mapper.Map<List<EventViewModel>>(events)) :
+                        Problem("Entity set 'ApplicationDbContext.Events' is null.");
         }
 
         // GET: Events/Details/5
